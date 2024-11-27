@@ -9,7 +9,7 @@ cryptography==43.0.3
 distro==1.9.0
 Django==5.1.3
 idna==3.10
-numpy>=1.21.2,<1.24.0
+numpy>=1.24.4,<2.0.0
 opencv-python-headless==4.8.0.76
 oscrypto==1.3.0
 pdf2image==1.17.0
