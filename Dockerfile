@@ -13,11 +13,17 @@ WORKDIR /app
 # Copia el archivo requirements.txt
 COPY requirements.txt .
 
-# Actualiza pip e instala dependencias de Python
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir numpy>=1.21.2,<1.24.0 && \
-    pip install --no-cache-dir opencv-python-headless==4.8.0.76 && \
-    pip install --no-cache-dir -r requirements.txt
+# Actualiza pip
+RUN pip install --upgrade pip
+
+# Instala primero numpy en una versión compatible
+RUN pip install --no-cache-dir "numpy>=1.21.2,<1.24.0"
+
+# Instala OpenCV con las dependencias resueltas
+RUN pip install --no-cache-dir "opencv-python-headless==4.8.0.76"
+
+# Instala el resto de dependencias
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia el resto de los archivos del proyecto
 COPY . .
