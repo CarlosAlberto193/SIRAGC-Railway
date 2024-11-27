@@ -1,10 +1,11 @@
 # Usa una imagen base ligera de Python
 FROM python:3.11-slim
 
-# Instala las dependencias del sistema necesarias
+# Instala las dependencias del sistema necesarias, incluyendo poppler
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     build-essential \
+    poppler-utils \  # Instalación de poppler-utils para pdf2image
     && apt-get clean
 
 # Define el directorio de trabajo
