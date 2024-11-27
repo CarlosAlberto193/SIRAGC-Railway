@@ -9,8 +9,8 @@ cryptography==43.0.3
 distro==1.9.0
 Django==5.1.3
 idna==3.10
-numpy==2.1.3
-opencv-python-headless
+numpy==1.23.0   # Cambié a una versión estable de numpy
+opencv-python-headless==4.8.1.78  # Especificando una versión para evitar posibles problemas
 oscrypto==1.3.0
 pandas==2.2.3
 pdf2image==1.17.0
@@ -35,5 +35,5 @@ tzdata==2024.2
 tzlocal==5.2
 uritools==4.0.3
 urllib3==2.2.3
-gunicorn
-django-environ
+gunicorn==20.1.1  # Especificando la versión de Gunicorn
+django-environ==0.9.0  # Especificando la versión de django-environ
