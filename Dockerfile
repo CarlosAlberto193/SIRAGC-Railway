@@ -5,8 +5,8 @@ FROM python:3.11-slim
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     build-essential \
-    poppler-utils \  # Instalación de poppler-utils para pdf2image
-    && apt-get clean
+    poppler-utils && \
+    apt-get clean
 
 # Define el directorio de trabajo
 WORKDIR /app
@@ -36,6 +36,9 @@ ENV DEBUG=False
 
 # Expone el puerto (requerido por Railway)
 EXPOSE 8000
+
+# Comando para iniciar el servidor
+CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:$PORT"]
 
 # Comando para iniciar el servidor
 CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:$PORT"]
