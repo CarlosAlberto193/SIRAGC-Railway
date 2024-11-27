@@ -31,4 +31,4 @@ ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 
 # Comando para iniciar el servidor Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:${PORT}"]
+CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:$PORT"]
