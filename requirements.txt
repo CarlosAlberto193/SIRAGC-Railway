@@ -9,7 +9,7 @@ cryptography==43.0.3
 distro==1.9.0
 Django==5.1.3
 idna==3.10
-numpy==1.23.0   # Cambié a una versión estable de numpy
+numpy>=1.23.5
 opencv-python-headless==4.8.1.78  # Especificando una versión para evitar posibles problemas
 oscrypto==1.3.0
 pandas==2.2.3
