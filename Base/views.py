@@ -12,7 +12,7 @@ from pdf2image import convert_from_path
 from django.core.mail import send_mail
 from .utils import extraer_datos_pdf
 from .models import DocumentoEstado
-poppler_path = r'C:\Program Files\poppler-24.08.0\Library\bin'
+poppler_path = '/usr/bin'
 
 def index(request):
     return render(request, "index.html")
