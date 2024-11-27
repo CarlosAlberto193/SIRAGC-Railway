@@ -1,0 +1,36 @@
+{% extends 'index_master.html' %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="container-xxl">
+        <div class="container">
+            <h2>Detalles del Error en el Documento</h2>
+            <p>Por parte del área de Residencias, se le informa del estado del documento enviado:</p>
+
+            <!-- Formulario principal de mensaje de error -->
+            <form method="post" action="{% url 'enviar_correo' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="{{ correo }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje_error">Errores Detectados</label>
+                    <textarea class="form-control" id="mensaje_error" name="mensaje_error" rows="8" required>
+                        Documento Incorrecto
+                        {% for error in razones_error %}
+                            - {{ error }}
+                        {% endfor %}
+                    </textarea>
+                </div>
+
+                <!-- Campos ocultos para nombre y numero_control -->
+                <input type="hidden" name="nombre" value="{{ nombre }}">
+                <input type="hidden" name="numero_control" value="{{ numero_control }}">
+
+                <button type="submit" class="btn btn-primary mt-3">Enviar Mensaje</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'index_master.html' %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="container-xxl">
+        <div class="container">
+            <h2>Cargar y Analizar Documento PDF</h2>
+            <p>Por favor, cargue un documento PDF para ser procesado y analizar sus datos. Después de cargar el archivo, podrá ver los datos extraídos a continuación.</p>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="documento_pdf">Subir Documento PDF</label>
+                    <input type="file" name="documento_pdf" id="documento_pdf" class="form-control">
+                </div>
+                <button type="submit" name="accion" value="cargar" class="btn btn-primary">Cargar y Capturar Datos</button>             
+                <button type="submit" name="accion" value="analizar" class="btn btn-success">Analizar Documentos</button>
+            </form>
+
+
+            {% if datos %}
+                <hr>
+                <h3>Datos Extraídos</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <table class="table table-bordered">
+                        <tr>
+                            <th colspan="3" class="text-center">Datos del Residente</th>
+                        </tr>
+                        <tr>
+                            <td><label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ datos.nombre|default:'' }}" readonly>
+                            </td>
+                            <td><label for="numero_control">Número de Control</label>
+                                <input type="text" class="form-control" id="numero_control" name="numero_control" value="{{ datos.numero_control|default:'' }}" readonly>
+                            </td>
+                            <td><label for="carrera">Carrera</label>
+                                <input type="text" class="form-control" id="carrera" name="carrera" value="{{ datos.carrera|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="semestre">Semestre</label>
+                                <input type="text" class="form-control" id="semestre" name="semestre" value="{{ datos.semestre|default:'' }}" readonly>
+                            </td>
+                            <td><label for="domicilio">Domicilio</label>
+                                <input type="text" class="form-control" id="domicilio" name="domicilio" value="{{ datos.domicilio|default:'' }}" readonly>
+                            </td>
+                            <td><label for="colonia">Colonia</label>
+                                <input type="text" class="form-control" id="colonia" name="colonia" value="{{ datos.colonia|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="poliza">Póliza</label>
+                                <input type="text" class="form-control" id="poliza" name="poliza" value="{{ datos.poliza|default:'' }}" readonly>
+                            </td>
+                            <td><label for="codigo_postal">Código Postal</label>
+                                <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" value="{{ datos.codigo_postal|default:'' }}" readonly>
+                            </td>
+                            <td><label for="ciudad">Ciudad</label>
+                                <input type="text" class="form-control" id="ciudad" name="ciudad" value="{{ datos.ciudad|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="telefono">Teléfono</label>
+                                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ datos.telefono|default:'' }}" readonly>
+                            </td>
+                            <td><label for="edad">Edad</label>
+                                <input type="text" class="form-control" id="edad" name="edad" value="{{ datos.edad|default:'' }}" readonly>
+                            </td>
+                            <td><label for="nss">NSS</label>
+                                <input type="text" class="form-control" id="nss" name="nss" value="{{ datos.nss|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="correo">Correo Electrónico</label>
+                                <input type="text" class="form-control" id="correo" name="correo" value="{{ datos.correo|default:'' }}" readonly>
+                            </td>
+                            <td><label for="sexo">Sexo</label>
+                                <input type="text" class="form-control" id="sexo" name="sexo" value="{{ datos.sexo|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" class="text-center">Datos de la Empresa</th>
+                        </tr>
+                        <tr>
+                            <td><label for="nombre_empresa">Nombre de la Empresa</label>
+                                <input type="text" class="form-control" id="nombre_empresa" name="nombre_empresa" value="{{ datos.nombre_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="nombre_corto_empresa">Nombre Corto de la Empresa</label>
+                                <input type="text" class="form-control" id="nombre_corto_empresa" name="nombre_corto_empresa" value="{{ datos.nombre_corto_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="rfc">R.F.C.</label>
+                                <input type="text" class="form-control" id="rfc" name="rfc" value="{{ datos.rfc_empresa|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="giro_empresa">Giro</label>
+                                <input type="text" class="form-control" id="giro_empresa" name="giro_empresa" value="{{ datos.giro_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="sector">Sector</label>
+                                <input type="text" class="form-control" id="sector" name="sector" value="{{ datos.sector_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="telefono_ext">Teléfono y Ext.</label>
+                                <input type="text" class="form-control" id="telefono_ext" name="telefono_ext" value="{{ datos.telefono_empresa|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="domicilio_empresa">Domicilio de la Empresa</label>
+                                <input type="text" class="form-control" id="domicilio_empresa" name="domicilio_empresa" value="{{ datos.domicilio_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="colonia_empresa">Colonia</label>
+                                <input type="text" class="form-control" id="colonia_empresa" name="colonia_empresa" value="{{ datos.colonia_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="ciudad_empresa">Ciudad</label>
+                                <input type="text" class="form-control" id="ciudad_empresa" name="ciudad_empresa" value="{{ datos.ciudad_empresa|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="codigo_postal_empresa">Código Postal</label>
+                                <input type="text" class="form-control" id="codigo_postal_empresa" name="codigo_postal_empresa" value="{{ datos.cp_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="email_empresa: ">Correo Electronico de la Empresa</label>
+                                <input type="text" class="form-control" id="email_empresa" name="email_empresa" value="{{ datos.email_empresa|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="nombre_titular">Nombre del Titular</label>
+                                <input type="text" class="form-control" id="nombre_titular" name="nombre_titular" value="{{ datos.nombre_titular|default:'' }}" readonly>
+                            </td>
+                            <td><label for="puesto_titular">Puesto de Titular</label>
+                                <input type="text" class="form-control" id="puesto_titular" name="puesto_titular" value="{{ datos.puesto_titular|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="nombre_firma_empresa: ">Nombre del Representante de la Empresa</label>
+                                <input type="text" class="form-control" id="nombre_firma_empresa"  name="nombre_firma_empresa"': "" value="{{ datos.nombre_firma_empresa|default:'' }}" readonly>
+                            </td>
+                            <td><label for="puesto_firma_empresa">Puesto del Representante de la Empresa</label>
+                                <input type="text" class="form-control" id="puesto_firma_empresa" name="puesto_firma_empresa" value="{{ datos.puesto_firma_empresa|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" class="text-center">Datos de la Residencia</th>
+                        </tr>
+                        <tr>
+                            <td><label for="area_residencia">Área de Residencia</label>
+                                <input type="text" class="form-control" id="area_residencia" name="area_residencia" value="{{ datos.area_residencia|default:'' }}" readonly>
+                            </td>
+                            <td><label for="apoyo_economico: ">Apoyo Economico</label>
+                                <input type="text" class="form-control" id="apoyo_economico" name="apoyo_economico" value="{{ datos.apoyo_economico|default:'' }}" readonly>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td><label for="fecha_inicio: ">Fecha de Inicio de la Residencia</label>
+                                <input type="text" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ datos.fecha_inicio|default:'' }}" readonly>
+                            </td>
+                            <td><label for="fecha_entrega_reporte: ">Fecha de Entrega del Reporte</label>
+                                <input type="text" class="form-control" id="fecha_entrega_reporte" name="fecha_entrega_reporte" value="{{ datos.fecha_entrega_reporte|default:'' }}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                <label for="firmas_completas">Firmas en Documento</label>
+                                <input type="text" class="form-control" id="firmas_completas" name="firmas_completas" 
+                                       value="{% if datos.firmas_completas %}Validada{% else %}No Aplica{% endif %}" readonly>
+                            </td>                          
+                        </tr>
+                        <td colspan="3" class="text-center">
+                            <label for="mensaje">Estado del Documento</label>
+                            <input type="text" class="form-control" id="mensaje" name="mensaje" value="{{ mensaje|default:'' }}" readonly>
+                        </td>
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                <button type="submit" name="accion" value="guardar" class="btn btn-success">Guardar Datos</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            {% else %}
+                <p>No se han procesado datos aún. Carga un documento PDF.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

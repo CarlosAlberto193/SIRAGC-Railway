@@ -1,0 +1,79 @@
+{% extends 'index_master.html' %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="container-xxl">
+        <div class="container">
+            <h2>Actualizar Documento</h2>
+
+            <div class="form-group">
+                <label for="buscar_id">Buscar Documento por ID:</label>
+                <input type="text" class="form-control" id="buscar_id" name="buscar_id" placeholder="Ingresa el ID del documento" value="{{ request.GET.buscar_id }}">
+            </div>
+            <button class="btn btn-primary" onclick="buscarDocumento()">Buscar</button>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="buscar_id" value="{{ documento.id }}">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{ documento.nombre }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="numero_control">Número de Control:</label>
+                    <input type="text" class="form-control" id="numero_control" name="numero_control" value="{{ documento.numero_control }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="{{ documento.correo }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required>{{ documento.mensaje }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="estado_envio">Estado de Envío:</label>
+                    <select class="form-control" id="estado_envio" name="estado_envio" required>
+                        <option value="enviado" {% if documento.estado_envio == 'enviado' %}selected{% endif %}>Enviado</option>
+                        <option value="pendiente" {% if documento.estado_envio == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Actualizar Documento</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        const buscarId = "{{ request.GET.buscar_id }}";
+        if (buscarId) {
+            document.getElementById("buscar_id").value = buscarId;
+            buscarDocumento();
+        }
+    };
+
+    function buscarDocumento() {
+        var id = document.getElementById("buscar_id").value;
+
+        fetch(`/buscar_documento/${id}/`)  // Endpoint para buscar documento por ID
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Documento no encontrado');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("buscar_id_hidden").value = id;
+                document.getElementById("nombre").value = data.nombre;
+                document.getElementById("numero_control").value = data.numero_control;
+                document.getElementById("correo").value = data.correo;
+                document.getElementById("mensaje").value = data.mensaje;
+                document.getElementById("estado_envio").value = data.estado_envio;
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+</script>
+{% endblock %}

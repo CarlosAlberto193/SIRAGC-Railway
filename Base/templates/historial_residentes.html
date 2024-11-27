@@ -1,0 +1,61 @@
+{% extends 'index_master.html' %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="container">
+        <h2>Lista de Productos</h2>
+
+        <!-- Formulario de búsqueda -->
+        <form method="get" action="{% url 'Historial_Residentes' %}">
+            <div class="form-group">
+                <label for="numero_control">Buscar por Número de Control:</label>
+                <input type="text" name="numero_control" id="numero_control" class="form-control" value="{{ numero_control_buscar }}" placeholder="Ingrese el número de control">
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        <br>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Numero de Control</th>
+                    <th>Correo</th>
+                    <th>Estado</th>
+                    <th>¿Fue Enviado?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for Entrada in Entradas %}
+                <tr>
+                    <td>{{ Entrada.id }}</td>
+                    <td>{{ Entrada.nombre }}</td>
+                    <td>{{ Entrada.numero_control }}</td>
+                    <td>{{ Entrada.correo }}</td>
+                    <td>{{ Entrada.mensaje }}</td>
+                    <td>{{ Entrada.get_estado_envio_display }}</td>
+                    <td>
+                        <div class="action-buttons" style="display: flex; gap: 5px;">
+                            <form action="{% url 'actualizar_residente' %}" method="get">
+                                <input type="hidden" name="buscar_id" value="{{ Entrada.id }}">
+                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                            </form>
+                            <form action="{% url 'eliminar_instancia' Entrada.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta instancia?');">Eliminar</button>
+                            </form>
+                        </div>
+                        
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No hay productos disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
