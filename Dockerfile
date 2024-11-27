@@ -3,8 +3,8 @@ FROM python:3.11-slim
 
 # Instala las dependencias del sistema necesarias
 RUN apt-get update && apt-get install -y \
-    poppler-utils \
-    libgl1 \
+    libpq-dev \
+    build-essential \
     && apt-get clean
 
 # Define el directorio de trabajo
