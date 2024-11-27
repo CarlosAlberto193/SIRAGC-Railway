@@ -1,34 +1,34 @@
-# Usa una imagen oficial de Python
+# Usa una imagen base ligera de Python
 FROM python:3.11-slim
 
-# Instala las dependencias del sistema
+# Instala las dependencias del sistema necesarias
 RUN apt-get update && apt-get install -y \
     poppler-utils \
-    build-essential \
-    libpq-dev \
-    libjpeg-dev \
-    zlib1g-dev \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libgl1 \
+    && apt-get clean
 
-# Establece el directorio de trabajo
+# Define el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo requirements.txt y actualiza pip
+# Copia el archivo requirements.txt
 COPY requirements.txt .
-RUN pip install --upgrade pip setuptools wheel
 
-# Instala las dependencias de Python
-RUN pip install --no-cache-dir -r requirements.txt
+# Actualiza pip e instala dependencias de Python
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir numpy>=1.21.2,<1.24.0 && \
+    pip install --no-cache-dir opencv-python-headless==4.8.0.76 && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Copia el resto del código de tu proyecto
+# Copia el resto de los archivos del proyecto
 COPY . .
 
-# Configuración para evitar problemas de salida en logs
+# Configuración de entorno para Django
 ENV PYTHONUNBUFFERED 1
+ENV ALLOWED_HOSTS="*"
+ENV DEBUG=False
 
-# Expone el puerto de la aplicación
+# Expone el puerto (requerido por Railway)
 EXPOSE 8000
 
-# Comando para iniciar el servidor Django
+# Comando para iniciar el servidor
 CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:$PORT"]
