@@ -123,6 +123,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "Base/static",  # Asegúrate de tener la carpeta 'static'
 ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -137,3 +139,7 @@ EMAIL_HOST_USER = 'carlos.iniguez193@tectijuana.edu.mx'
 EMAIL_HOST_PASSWORD = 'GaaxuQfaj'
 
 LOGIN_URL = reverse_lazy('login') 
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://siragc-railway-production.up.railway.app',  # Reemplaza con tu dominio de producción
+]
